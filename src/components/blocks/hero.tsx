@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
-import styled from "styled-components";
+import React, { useEffect, useState } from "react"
+import styled from "styled-components"
 
-import { Button } from "@blueprintjs/core";
+import { Button } from "@blueprintjs/core"
+import { IsPreviewEnabledProp } from "../../types"
 
 const Container = styled.div`
   align-items: center;
@@ -11,7 +12,7 @@ const Container = styled.div`
   height: 500px;
   justify-content: space-around;
   padding: 10px 20px;
-`;
+`
 
 const Overlay = styled.div`
   background: rgba(0, 0, 0, 0.8);
@@ -23,7 +24,7 @@ const Overlay = styled.div`
   min-width: 500px;
   padding: 20px;
   text-align: center;
-`;
+`
 
 const Input = styled.textarea`
   background: none;
@@ -32,19 +33,19 @@ const Input = styled.textarea`
   color: #f0f4f8;
   font-family: "Open Sans", sans;
   resize: none;
-`;
+`
 
 const Title = styled(Input)`
   font-size: 30px;
   font-weight: bold;
   text-align: center;
-`;
+`
 
 const SubTitle = styled(Input)`
   font-size: 16px;
   margin-top: 10px;
   text-align: center;
-`;
+`
 
 const StyledButton = styled(Button)`
   background-color: #d64545 !important;
@@ -54,39 +55,50 @@ const StyledButton = styled(Button)`
   font-weight: bold;
   margin: 0 auto;
   width: 30%;
-`;
+`
 
-interface HeroProps {
+interface HeroProps extends IsPreviewEnabledProp {
   data: {
-    title?: string;
-    subtitle?: string;
+    title?: string
+    subtitle?: string
   }
 }
 
-const Hero: React.FunctionComponent<HeroProps> = ({ data }): JSX.Element => {
-  const [title, setTitle] = useState(data?.title || "Title");
-  const [subtitle, setSubtitle] = useState(data?.subtitle || "Subtitle");
+const Hero: React.FunctionComponent<HeroProps> = ({
+  data,
+  isPreviewEnabled,
+}): JSX.Element => {
+  const [title, setTitle] = useState(data?.title || "Title")
+  const [subtitle, setSubtitle] = useState(data?.subtitle || "Subtitle")
 
   useEffect(() => {
     setTitle(data?.title)
     setSubtitle(data?.subtitle)
-  }, [data]);
+  }, [data])
 
   return (
     <Container data-testid="hero">
-      <Overlay>
-        <Title
-          value={title}
-          onChange={(e) => setTitle(e.currentTarget.value)}
-        />
-        <SubTitle
-          value={subtitle}
-          onChange={(e) => setSubtitle(e.currentTarget.value)}
-        />
-        <StyledButton> Order Now! </StyledButton>
-      </Overlay>
+      {!isPreviewEnabled ? (
+        <Overlay>
+          <Title
+            value={title}
+            onChange={(e) => setTitle(e.currentTarget.value)}
+          />
+          <SubTitle
+            value={subtitle}
+            onChange={(e) => setSubtitle(e.currentTarget.value)}
+          />
+          <StyledButton> Order Now! </StyledButton>
+        </Overlay>
+      ) : (
+        <Overlay>
+          <Title value={title}></Title>
+          <SubTitle value={subtitle}></SubTitle>
+          <StyledButton> Order Now! </StyledButton>
+        </Overlay>
+      )}
     </Container>
-  );
+  )
 }
 
-export default Hero;
+export default Hero

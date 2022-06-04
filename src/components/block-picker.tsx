@@ -3,6 +3,7 @@ import styled from "styled-components"
 import { Button } from "@blueprintjs/core"
 
 import blocks from "../components/blocks"
+import { IsPreviewEnabledProp } from "../types"
 
 const Container = styled.div`
   webkit-box-shadow: 0 0 0 1px rgba(16, 22, 26, 0.1),
@@ -44,9 +45,8 @@ const StyledButton = styled(Button)`
   width: 80%;
 `
 
-interface BlockPickerProps {
+interface BlockPickerProps extends IsPreviewEnabledProp {
   addBlock: (blockName: string) => void
-  isPreviewEnabled: boolean
   className?: string
 }
 

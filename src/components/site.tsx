@@ -4,7 +4,7 @@ import styled from "styled-components"
 import { Icon } from "@blueprintjs/core"
 
 import blocks from "../components/blocks"
-import { Block } from "../types"
+import { Block, IsPreviewEnabledProp } from "../types"
 
 const Container = styled.div`
   overflow-x: scroll;
@@ -32,6 +32,9 @@ const BlockContainer = styled.div`
       opacity: 1;
     }
   }
+`
+const BlockContainerNoHover = styled.div`
+  margin: 0;
 `
 
 const Spacer = styled.div`
@@ -79,10 +82,9 @@ const TrashButton = styled.button`
   width: 30px;
 `
 
-interface SiteProps {
+interface SiteProps extends IsPreviewEnabledProp {
   activeIndex: number
   blockList: Block[]
-  isPreviewEnabled: boolean
   className?: string
   removeBlock: (index: number) => void
   setActiveIndex: (index: number) => void
@@ -100,9 +102,19 @@ const site: React.FunctionComponent<SiteProps> = ({
     <Container className={className}>
       {blockList.map((block: Block, index: number) => {
         const Component = blocks[block.type]
+        if (isPreviewEnabled) {
+          return (
+            <BlockContainerNoHover data-testid="block-container" key={index}>
+              <Component
+                data={block.configData}
+                isPreviewEnabled={isPreviewEnabled}
+              ></Component>
+            </BlockContainerNoHover>
+          )
+        }
         return (
           <BlockContainer data-testid="block-container" key={index}>
-            {!isPreviewEnabled && index === activeIndex ? (
+            {index === activeIndex ? (
               <Spacer data-testid="spacer">
                 <div>(Insert Blocks from the Side Panel Here)</div>
                 <CloseSpacer onClick={() => setActiveIndex(-1)}>x</CloseSpacer>
@@ -110,22 +122,22 @@ const site: React.FunctionComponent<SiteProps> = ({
             ) : (
               <AddButton onClick={() => setActiveIndex(index)}> + </AddButton>
             )}
-            {!isPreviewEnabled && (
-              <TrashButton
-                data-testid="remove-button"
-                onClick={() => removeBlock(index)}
-              >
-                <Icon icon="trash" intent="danger" iconSize={15} />
-              </TrashButton>
-            )}
+            (
+            <TrashButton
+              data-testid="remove-button"
+              onClick={() => removeBlock(index)}
+            >
+              <Icon icon="trash" intent="danger" iconSize={15} />
+            </TrashButton>
+            )
             <Component data={block.configData} />
-            {!isPreviewEnabled && index + 1 !== activeIndex && (
+            {index + 1 !== activeIndex && (
               <AddButton onClick={() => setActiveIndex(index + 1)}>+</AddButton>
             )}
           </BlockContainer>
         )
       })}
-      {!isPreviewEnabled && activeIndex === blockList.length && (
+      {isPreviewEnabled && activeIndex === blockList.length && (
         <Spacer data-testid="spacer">
           <div>(Insert Blocks from the Side Panel Here)</div>
           <CloseSpacer onClick={() => setActiveIndex(-1)}>x</CloseSpacer>

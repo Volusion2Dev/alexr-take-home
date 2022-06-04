@@ -5,3 +5,6 @@ export interface Block {
   position: number
   configData: any
 }
+export interface IsPreviewEnabledProp {
+  isPreviewEnabled?: boolean
+}
