@@ -5,7 +5,6 @@ export interface Block {
   position: number
   configData: any
 }
-
 export function isBlockType(value: string): value is BlockType {
   return ["header", "hero", "footer"].includes(value)
 }

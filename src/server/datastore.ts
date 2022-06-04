@@ -28,3 +28,5 @@ export async function getBlocks(): Promise<Block[]> {
     configData: JSON.parse(row.data)
   }));
 }
+
+// TODO - make an exported async function called addBlocks that sends block data to the postgress db
