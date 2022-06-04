@@ -35,6 +35,18 @@ const BlockContainer = styled.div`
 `
 const BlockContainerNoHover = styled.div`
   margin: 0;
+  transition: margin 0.2s ease;
+
+  button {
+    opacity: 0;
+  }
+
+  &:hover,
+  &:focus {
+    button {
+      opacity: 1;
+    }
+  }
 `
 
 const Spacer = styled.div`
@@ -122,14 +134,12 @@ const site: React.FunctionComponent<SiteProps> = ({
             ) : (
               <AddButton onClick={() => setActiveIndex(index)}> + </AddButton>
             )}
-            (
             <TrashButton
               data-testid="remove-button"
               onClick={() => removeBlock(index)}
             >
               <Icon icon="trash" intent="danger" iconSize={15} />
             </TrashButton>
-            )
             <Component data={block.configData} />
             {index + 1 !== activeIndex && (
               <AddButton onClick={() => setActiveIndex(index + 1)}>+</AddButton>
@@ -137,7 +147,7 @@ const site: React.FunctionComponent<SiteProps> = ({
           </BlockContainer>
         )
       })}
-      {isPreviewEnabled && activeIndex === blockList.length && (
+      {!isPreviewEnabled && activeIndex === blockList.length && (
         <Spacer data-testid="spacer">
           <div>(Insert Blocks from the Side Panel Here)</div>
           <CloseSpacer onClick={() => setActiveIndex(-1)}>x</CloseSpacer>

@@ -11,7 +11,12 @@ const StyledPreviewButton = styled(Button)`
   margin: 5px auto;
   padding: 10px;
   text-transform: capitalize;
-  width: 80%;
+  position: fixed;
+  width: 60px;
+  height: 60px;
+  bottom: 40px;
+  right: 40px;
+  z-index: 1;
 `
 
 interface PreviewProps {

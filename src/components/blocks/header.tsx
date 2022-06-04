@@ -45,7 +45,7 @@ const Header: React.FunctionComponent<HeaderProps> = ({
           onChange={(e) => setTitle(e.currentTarget.value)}
         />
       ) : (
-        <Name value={title}></Name>
+        <Name value={title} readOnly={true}></Name>
       )}
       <Icon icon="shopping-cart" intent="success" iconSize={28} />
     </Container>

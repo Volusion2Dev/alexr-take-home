@@ -92,8 +92,8 @@ const Hero: React.FunctionComponent<HeroProps> = ({
         </Overlay>
       ) : (
         <Overlay>
-          <Title value={title}></Title>
-          <SubTitle value={subtitle}></SubTitle>
+          <Title value={title} readOnly={true}></Title>
+          <SubTitle value={subtitle} readOnly={true}></SubTitle>
           <StyledButton> Order Now! </StyledButton>
         </Overlay>
       )}
