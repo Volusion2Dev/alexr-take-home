@@ -72,7 +72,6 @@ export default function Home(): JSX.Element {
     getBlocks()
   }, [])
 
-  // TODO: call api to save block
   const addBlock = (blockName: BlockType) => {
     if (activeIndex === -1) {
       toasterRef.current.show({
@@ -82,11 +81,19 @@ export default function Home(): JSX.Element {
       })
       return
     }
+
+    const newBlock = {
+      id: -1,
+      type: blockName,
+      position: activeIndex + 1,
+      configData: null,
+    }
     const updatedBlockList = [
       ...blockList.slice(0, activeIndex),
-      { id: -1, type: blockName, position: activeIndex + 1, configData: null },
+      newBlock,
       ...blockList.slice(activeIndex),
     ]
+    api.addBlock(newBlock)
 
     setBlockList(updatedBlockList)
     setActiveIndex(activeIndex + 1)
@@ -108,7 +115,6 @@ export default function Home(): JSX.Element {
     setPreviewEnabled(!isPreviewEnabled)
   }
 
-  // TODO create Preview component that will do a use effect or use state hook
   return (
     <div>
       <Head>
