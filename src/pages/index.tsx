@@ -102,6 +102,8 @@ export default function Home(): JSX.Element {
     }
   };
 
+  // TODO Add previewEnabled prop to Site and BlockPicker
+  // TODO create Preview component that will do a use effect or use state hook
   return (
     <div>
       <Head>
