@@ -23,7 +23,10 @@ export async function addBlock(block: Block): Promise<ApiResponse> {
       data: dbBlock,
     }
   } catch (err) {
-    return { statusCode: 500, data: { message: err.message } }
+    return {
+      statusCode: 500,
+      data: { message: err.message },
+    }
   }
 }
 

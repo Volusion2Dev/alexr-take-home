@@ -29,17 +29,21 @@ export async function getBlocks(): Promise<Block[]> {
   }))
 }
 
-// TODO - make an exported async function called addBlocks that sends block data to the postgress db
 export async function addBlock(block: Block): Promise<Block> {
-  // const config = JSON.stringify(block.configData)
-  const retVal = await db.one(
+  const retVal = await db.any(
     `INSERT INTO site_builder.block
       (block_type, position, configured_data)
     VALUES
-      ($1,$2,$3)`,
+      ($1,$2,$3)
+    RETURNING *`,
     [block.type, block.position, block.configData]
   )
 
-  // throw new Error("addBlock not implemented.")
-  return JSON.parse(retVal)
+  retVal.map((row: any) => ({
+    id: row.id,
+    type: row.block_type,
+    position: row.position,
+    configData: JSON.parse(row.configured_data) || null,
+  }))
+  return retVal[0]
 }

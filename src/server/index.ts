@@ -30,6 +30,7 @@ app.prepare().then(() => {
 
   server.listen(port, (err?: Error) => {
     if (err) {
+      console.error(err.cause)
       throw err
     }
     // tslint:disable-next-line no-console
