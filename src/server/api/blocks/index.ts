@@ -16,13 +16,17 @@ export async function addBlock(block: Block): Promise<ApiResponse> {
     if (!isBlockType(block.type)) {
       return { statusCode: 400, data: { message: "invalid block type!" } }
     }
+    const dbBlock = await db.addBlock(block)
 
     return {
       statusCode: 201,
-      data: { message: `successfully added ${block.type} block!` },
+      data: dbBlock,
     }
   } catch (err) {
-    return { statusCode: 500, data: { message: err.message } }
+    return {
+      statusCode: 500,
+      data: { message: err.message },
+    }
   }
 }
 
