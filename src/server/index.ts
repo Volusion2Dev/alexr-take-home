@@ -19,6 +19,12 @@ app.prepare().then(() => {
     res.status(blockResponse.statusCode).json(blockResponse.data);
   });
 
+  // TODO - actually setup post.
+  server.post('/blocks', async(_req: Request, res: Response) => {
+    const blockResponse: ApiResponse = await getBlocks();
+    res.status(blockResponse.statusCode).json(blockResponse.data);
+  });
+
   server.all('*', (req, res) => {
     return handle(req, res);
   });
