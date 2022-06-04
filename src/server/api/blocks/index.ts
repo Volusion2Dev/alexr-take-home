@@ -1,6 +1,6 @@
 import { ApiResponse } from "../../apiResponse"
 import * as db from "../../datastore"
-import { Block, isBlockType } from "../../../types"
+import { Block, BlockType } from "../../../types"
 
 export async function getBlocks(): Promise<ApiResponse> {
   try {
@@ -24,4 +24,8 @@ export async function addBlock(block: Block): Promise<ApiResponse> {
   } catch (err) {
     return { statusCode: 500, data: { message: err.message } }
   }
+}
+
+function isBlockType(value: string): value is BlockType {
+  return ["header", "hero", "footer"].includes(value)
 }

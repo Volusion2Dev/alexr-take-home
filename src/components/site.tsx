@@ -1,15 +1,15 @@
-import React from "react";
-import styled from "styled-components";
+import React from "react"
+import styled from "styled-components"
 
-import { Icon } from "@blueprintjs/core";
+import { Icon } from "@blueprintjs/core"
 
-import blocks from "../components/blocks";
-import { Block } from '../types';
+import blocks from "../components/blocks"
+import { Block, IsPreviewEnabledProp } from "../types"
 
 const Container = styled.div`
   overflow-x: scroll;
   position: relative;
-`;
+`
 
 const BlockContainer = styled.div`
   margin: 0;
@@ -32,7 +32,22 @@ const BlockContainer = styled.div`
       opacity: 1;
     }
   }
-`;
+`
+const BlockContainerNoHover = styled.div`
+  margin: 0;
+  transition: margin 0.2s ease;
+
+  button {
+    opacity: 0;
+  }
+
+  &:hover,
+  &:focus {
+    button {
+      opacity: 1;
+    }
+  }
+`
 
 const Spacer = styled.div`
   align-items: center;
@@ -41,13 +56,13 @@ const Spacer = styled.div`
   height: 30px;
   justify-content: space-around;
   position: relative;
-`;
+`
 
 const CloseSpacer = styled.div`
   cursor: pointer;
   position: absolute;
   right: 25px;
-`;
+`
 
 const AddButton = styled.button.attrs({
   "data-testid": "add-button",
@@ -64,7 +79,7 @@ const AddButton = styled.button.attrs({
   transform: translateY(-15px);
   transition: opacity 0.2s ease;
   width: 30px;
-`;
+`
 
 const TrashButton = styled.button`
   background: white;
@@ -77,19 +92,20 @@ const TrashButton = styled.button`
   transform: translateY(5px);
   transition: opacity 0.2s ease;
   width: 30px;
-`;
+`
 
-interface SiteProps {
-  activeIndex: number;
-  blockList: Block[];
-  className?: string;
-  removeBlock: (index: number) => void;
-  setActiveIndex: (index: number) => void;
+interface SiteProps extends IsPreviewEnabledProp {
+  activeIndex: number
+  blockList: Block[]
+  className?: string
+  removeBlock: (index: number) => void
+  setActiveIndex: (index: number) => void
 }
 
 const site: React.FunctionComponent<SiteProps> = ({
   activeIndex,
   blockList,
+  isPreviewEnabled,
   className,
   removeBlock,
   setActiveIndex,
@@ -97,7 +113,17 @@ const site: React.FunctionComponent<SiteProps> = ({
   return (
     <Container className={className}>
       {blockList.map((block: Block, index: number) => {
-        const Component = blocks[block.type];
+        const Component = blocks[block.type]
+        if (isPreviewEnabled) {
+          return (
+            <BlockContainerNoHover data-testid="block-container" key={index}>
+              <Component
+                data={block.configData}
+                isPreviewEnabled={isPreviewEnabled}
+              ></Component>
+            </BlockContainerNoHover>
+          )
+        }
         return (
           <BlockContainer data-testid="block-container" key={index}>
             {index === activeIndex ? (
@@ -119,16 +145,16 @@ const site: React.FunctionComponent<SiteProps> = ({
               <AddButton onClick={() => setActiveIndex(index + 1)}>+</AddButton>
             )}
           </BlockContainer>
-        );
+        )
       })}
-      {activeIndex === blockList.length && (
+      {!isPreviewEnabled && activeIndex === blockList.length && (
         <Spacer data-testid="spacer">
           <div>(Insert Blocks from the Side Panel Here)</div>
           <CloseSpacer onClick={() => setActiveIndex(-1)}>x</CloseSpacer>
         </Spacer>
       )}
     </Container>
-  );
-};
+  )
+}
 
-export default site;
+export default site
