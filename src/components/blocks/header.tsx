@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react"
-import styled from "styled-components"
-import { Icon } from "@blueprintjs/core"
-import { IsPreviewEnabledProp } from "../../types"
+import React, { useEffect, useState } from 'react'
+import styled from 'styled-components'
+import { Icon } from '@blueprintjs/core'
+import { IsPreviewEnabledProp } from '../../types'
 
 const Container = styled.header`
   align-items: center;
@@ -28,7 +28,7 @@ const Header: React.FunctionComponent<HeaderProps> = ({
   data,
   isPreviewEnabled,
 }): JSX.Element => {
-  const [title, setTitle] = useState(data?.title || "store name")
+  const [title, setTitle] = useState(data?.title || 'store name')
   useEffect(() => {
     document.title = title
   })
@@ -38,15 +38,12 @@ const Header: React.FunctionComponent<HeaderProps> = ({
   }, [data])
   return (
     <Container data-testid="header">
-      {!isPreviewEnabled ? (
-        <Name
-          placeholder="Store Name"
-          defaultValue={title}
-          onChange={(e) => setTitle(e.currentTarget.value)}
-        />
-      ) : (
-        <Name value={title} readOnly={true}></Name>
-      )}
+      <Name
+        placeholder="Store Name"
+        defaultValue={title}
+        readOnly={isPreviewEnabled}
+        onChange={(e) => setTitle(e.currentTarget.value)}
+      />
       <Icon icon="shopping-cart" intent="success" iconSize={28} />
     </Container>
   )

@@ -1,6 +1,6 @@
-import { Button } from "@blueprintjs/core"
-import React from "react"
-import styled from "styled-components"
+import { Button } from '@blueprintjs/core'
+import React from 'react'
+import styled from 'styled-components'
 
 const StyledPreviewButton = styled(Button)`
   background-color: #9fb3c8 !important;
@@ -18,6 +18,9 @@ const StyledPreviewButton = styled(Button)`
   right: 40px;
   z-index: 1;
 `
+// TODO - Improve CSS on Button, maybe use a blueprint icon that looks suitable for a Preview button.
+// Specific Improvements - Round Edges, match the styling to be more aligned with existing sidebar button styles.
+// Low Priority do to needed effort and lack of time -=> Have the button enlarge and expand from the corner so it takes up less space when not wanting to be immediately pressed.
 
 interface PreviewProps {
   togglePreview: () => void

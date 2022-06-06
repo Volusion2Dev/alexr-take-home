@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react"
-import styled from "styled-components"
+import React, { useEffect, useState } from 'react'
+import styled from 'styled-components'
 
-import { Button } from "@blueprintjs/core"
-import { IsPreviewEnabledProp } from "../../types"
+import { Button } from '@blueprintjs/core'
+import { IsPreviewEnabledProp } from '../../types'
 
 const Container = styled.div`
   align-items: center;
-  background-image: url("https://res.cloudinary.com/dyx4yhvoq/image/upload/c_fill,f_auto,q_auto/v1587410829/5e9c790d1a20a610174acc16/btfswvu2f3uqflsnaj3e.jpg");
+  background-image: url('https://res.cloudinary.com/dyx4yhvoq/image/upload/c_fill,f_auto,q_auto/v1587410829/5e9c790d1a20a610174acc16/btfswvu2f3uqflsnaj3e.jpg');
   border-bottom: 2px solid #102a43;
   display: flex;
   height: 500px;
@@ -31,7 +31,7 @@ const Input = styled.textarea`
   border: none;
   box-shadow: none;
   color: #f0f4f8;
-  font-family: "Open Sans", sans;
+  font-family: 'Open Sans', sans;
   resize: none;
 `
 
@@ -68,8 +68,8 @@ const Hero: React.FunctionComponent<HeroProps> = ({
   data,
   isPreviewEnabled,
 }): JSX.Element => {
-  const [title, setTitle] = useState(data?.title || "Title")
-  const [subtitle, setSubtitle] = useState(data?.subtitle || "Subtitle")
+  const [title, setTitle] = useState(data?.title || 'Title')
+  const [subtitle, setSubtitle] = useState(data?.subtitle || 'Subtitle')
 
   useEffect(() => {
     setTitle(data?.title)
@@ -78,25 +78,19 @@ const Hero: React.FunctionComponent<HeroProps> = ({
 
   return (
     <Container data-testid="hero">
-      {!isPreviewEnabled ? (
-        <Overlay>
-          <Title
-            value={title}
-            onChange={(e) => setTitle(e.currentTarget.value)}
-          />
-          <SubTitle
-            value={subtitle}
-            onChange={(e) => setSubtitle(e.currentTarget.value)}
-          />
-          <StyledButton> Order Now! </StyledButton>
-        </Overlay>
-      ) : (
-        <Overlay>
-          <Title value={title} readOnly={true}></Title>
-          <SubTitle value={subtitle} readOnly={true}></SubTitle>
-          <StyledButton> Order Now! </StyledButton>
-        </Overlay>
-      )}
+      <Overlay>
+        <Title
+          value={title}
+          readOnly={isPreviewEnabled}
+          onChange={(e) => setTitle(e.currentTarget.value)}
+        />
+        <SubTitle
+          value={subtitle}
+          readOnly={isPreviewEnabled}
+          onChange={(e) => setSubtitle(e.currentTarget.value)}
+        />
+        <StyledButton> Order Now! </StyledButton>
+      </Overlay>
     </Container>
   )
 }
